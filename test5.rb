@@ -1,3 +1,4 @@
+# Rubocop: disable Metrics/MethodLength
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -5,7 +6,7 @@ module Enumerable
     c = 0
     statement = true
     if block_given?
-      length.times do 
+      length.times do
         statement = false unless yield(self[c])
         c += 1
       end
@@ -56,7 +57,7 @@ module Enumerable
     statement
   end
 
-  def my_none? (pattern = nil)
+  def my_none?(pattern = nil)
     c = 0
     statement = false
     if block_given?
@@ -72,7 +73,7 @@ module Enumerable
     statement
   end
 
-  def my_any? (pattern = nil)
+  def my_any?(pattern = nil)
     c = 0
     statement = false
     if block_given?
@@ -88,7 +89,7 @@ module Enumerable
     statement
   end
 
-  def my_count (x = nil)
+  def my_count(x = nil)
     c = 0
     if !x.nil?
       length.times do |i|
@@ -127,6 +128,6 @@ module Enumerable
 end
 
 def multiply_els(array)
-  print(array.my_inject{ |sum| sum * 2 })
+  print(array.my_inject { |sum| sum * 2 })
 end
 multiply_els([2, 3, 5])
