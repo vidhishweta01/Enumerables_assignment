@@ -13,8 +13,9 @@ module Enumerable
         c += 1
       end
     else
-      length.times do |c|
+      while c < to_a.length
         yield (self[c])
+        c += 1
       end
     end
   end
