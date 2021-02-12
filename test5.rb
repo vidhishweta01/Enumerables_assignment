@@ -1,4 +1,4 @@
-# rubocop: disable Metrics/MethodLength, Metrics/CyclomaticComplexity, Style/Documentation
+# Rubobcop: disable Metrics/ModuleLength, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/AbcSize
 
 module Enumerable
   def my_each
@@ -25,7 +25,7 @@ module Enumerable
       c += 1
     end
     self
-   end
+  end
 
   def my_select
     return to_enum(:my_each_with_index) unless block_given?
@@ -108,33 +108,6 @@ module Enumerable
       my_each { |x| result.push(yield(x)) }
     end
     result
-  end
-
-  def my_inject(*args)
-    if args.length == 1 && !block_given?
-      return my_inject { |n, i| n.send(args.first, i) }
-    end
-    if args.length == 2 && !block_given?
-      my_aggregator = args.first
-      each do |i|
-        my_aggregator = my_aggregator.send(args[1], i)
-      end
-      return my_aggregator
-      return my_inject { |n, i| n.send(args.first, i) }
-    end
-    if args.length == 1
-      my_aggregator = args.first
-      each do |i|
-        my_aggregator = yield(my_aggregator, i)
-      end
-      return my_aggregator
-    end
-    my_aggregator = first
-    each do |i|
-      next if i == first
-      my_aggregator = yield(my_aggregator, i)
-    end
-    my_aggregator
   end
 end
 
