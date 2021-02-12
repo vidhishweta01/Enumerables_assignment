@@ -1,4 +1,3 @@
-
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -35,7 +34,7 @@ module Enumerable
     end
     self
   end
-  def my_all?(pattern = nil)
+  def my_all? ( pattern = nil )
     c = 0
     statement = true
     if block_given?
@@ -50,7 +49,7 @@ module Enumerable
     end
     statement
   end
-  def my_none?(pattern = nil)
+  def my_none? ( pattern = nil )
     c = 0
     statement = false
     if block_given?
@@ -65,7 +64,7 @@ module Enumerable
     end
     statement
   end
-  def my_any?(pattern = nil)
+  def my_any? ( pattern = nil )
     c = 0
     statement = false
     if block_given?
@@ -80,7 +79,7 @@ module Enumerable
     end
     statement
   end
-  def my_count(x = nil)
+  def my_count (x = nil)
     c = 0
     if !x.nil?
       length.times do |i|
@@ -91,7 +90,7 @@ module Enumerable
       length
     end
   end
-  def my_map(proc = nil)
+  def my_map( proc = nil)
     return to_enum(:my_map) unless block_given? || proc
     result = []
     if proc
