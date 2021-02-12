@@ -1,4 +1,6 @@
 # Rubocop: disable Metrics/MethodLength
+# Rubocop: disable Metrics/ModuleLength
+# Rubocop: disable Lint/ShadowingOuterLocalVariable
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -89,11 +91,11 @@ module Enumerable
     statement
   end
 
-  def my_count(x = nil)
+  def my_count(var = nil)
     c = 0
-    if !x.nil?
+    if !var.nil?
       length.times do |i|
-        c += 1 if self[i] == x
+        c += 1 if self[i] == var
       end
       c
     else
