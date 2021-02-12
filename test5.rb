@@ -1,5 +1,5 @@
-# Rubocop: disable Metrics/MethodLength
 # Rubocop: disable Metrics/ModuleLength
+# Rubocop: disable Metrics/MethodLength
 # Rubocop: disable Lint/ShadowingOuterLocalVariable
 module Enumerable
   def my_each
@@ -130,6 +130,7 @@ module Enumerable
   end
 end
 
+# Rubocop: enable Metrics/ModuleLength
 def multiply_els(array)
   print(array.my_inject { |sum| sum * 2 })
 end
