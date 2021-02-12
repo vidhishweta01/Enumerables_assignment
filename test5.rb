@@ -24,7 +24,7 @@ module Enumerable
     self
   end
   def my_select
-    return to_enum(:my_each_with_index) unless block_given?
+    return to_enum(:my_select) unless block_given?
     c = 0
     if block_given?
       length.times do
@@ -100,20 +100,17 @@ module Enumerable
     end
     result
   end
-  def my_inject(*arg)
-    arr = is_a?(Array) ? self : to_a
-    result = arg[0] if arg[0].is_a? Integer
-    if arg[0].is_a?(Symbol) || arg[0].is_a?(String)
-      sym = arg[0]
-    elsif arg[0].is_a?(Integer)
-      sym = arg[1] if arg[1].is_a?(Symbol) || arg[1].is_a?(String)
+  def my_inject(block = nil)
+    my_array = self
+    if !block.nil?
+      my_array.my_inject { |sum, x| sum + x }
+    elsif block_given?
+      accumulator = my_array[0]
+      my_array.my_each_with_index do |n, i|
+        accumulator = yield(accumulator, n) if i != 0
+      end
+      accumulator
     end
-    if sym
-      arr.my_each { |item| result = result ? result.send(sym, item) : item }
-    else
-      arr.my_each { |item| result = result ? yield(result, item) : item }
-    end
-    result
   end
 end
 
