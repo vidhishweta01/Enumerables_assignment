@@ -130,9 +130,7 @@ module Enumerable
   end
 end
 
-
 def multiply_els(array)
   print(array.my_inject { |sum| sum * 2 })
 end
 multiply_els([2, 3, 5])
-# Rubocop: enable Metrics/ModuleLength
