@@ -1,4 +1,3 @@
-# Rubobcop: disable Metrics/ModuleLength, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/AbcSize
 
 module Enumerable
   def my_each
@@ -16,7 +15,6 @@ module Enumerable
       end
     end
   end
-
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
     c = 0
@@ -26,7 +24,6 @@ module Enumerable
     end
     self
   end
-
   def my_select
     return to_enum(:my_each_with_index) unless block_given?
     c = 0
@@ -38,7 +35,6 @@ module Enumerable
     end
     self
   end
-
   def my_all?(pattern = nil)
     c = 0
     statement = true
@@ -54,7 +50,6 @@ module Enumerable
     end
     statement
   end
-
   def my_none?(pattern = nil)
     c = 0
     statement = false
@@ -70,7 +65,6 @@ module Enumerable
     end
     statement
   end
-
   def my_any?(pattern = nil)
     c = 0
     statement = false
@@ -86,7 +80,6 @@ module Enumerable
     end
     statement
   end
-
   def my_count(x = nil)
     c = 0
     if !x.nil?
@@ -98,7 +91,6 @@ module Enumerable
       length
     end
   end
-
   def my_map(proc = nil)
     return to_enum(:my_map) unless block_given? || proc
     result = []
@@ -106,6 +98,21 @@ module Enumerable
       my_each { |x| result.push(proc.call(x)) }
     else
       my_each { |x| result.push(yield(x)) }
+    end
+    result
+  end
+  def my_inject(*arg)
+    arr = is_a?(Array) ? self : to_a
+    result = arg[0] if arg[0].is_a? Integer
+    if arg[0].is_a?(Symbol) || arg[0].is_a?(String)
+      sym = arg[0]
+    elsif arg[0].is_a?(Integer)
+      sym = arg[1] if arg[1].is_a?(Symbol) || arg[1].is_a?(String)
+    end
+    if sym
+      arr.my_each { |item| result = result ? result.send(sym, item) : item }
+    else
+      arr.my_each { |item| result = result ? yield(result, item) : item }
     end
     result
   end
