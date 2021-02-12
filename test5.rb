@@ -14,6 +14,7 @@ module Enumerable
       end
     end
   end
+
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
     c = 0
@@ -23,6 +24,7 @@ module Enumerable
     end
     self
   end
+
   def my_select
     return to_enum(:my_select) unless block_given?
     c = 0
@@ -34,7 +36,8 @@ module Enumerable
     end
     self
   end
-  def my_all? ( pattern = nil )
+
+  def my_all?( pattern = nil )
     c = 0
     statement = true
     if block_given?
@@ -49,6 +52,7 @@ module Enumerable
     end
     statement
   end
+
   def my_none? ( pattern = nil )
     c = 0
     statement = false
@@ -64,6 +68,7 @@ module Enumerable
     end
     statement
   end
+
   def my_any? ( pattern = nil )
     c = 0
     statement = false
@@ -79,6 +84,7 @@ module Enumerable
     end
     statement
   end
+
   def my_count (x = nil)
     c = 0
     if !x.nil?
@@ -90,6 +96,7 @@ module Enumerable
       length
     end
   end
+
   def my_map( proc = nil)
     return to_enum(:my_map) unless block_given? || proc
     result = []
@@ -100,6 +107,7 @@ module Enumerable
     end
     result
   end
+  
   def my_inject(block = nil)
     my_array = self
     if !block.nil?
