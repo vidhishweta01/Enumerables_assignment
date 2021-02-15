@@ -42,8 +42,23 @@ module Enumerable
         c += 1
       end
     elsif !pattern.nil?
-      to_a.length.times do
-        statement = false if to_a[i].scan(pattern)
+      if respond_to?(:to_ary)
+        my_array = self
+        to_a.length.times do
+          begin
+            if self[c].is_a?(pattern)
+              statement = true
+            else
+              statement = false
+              break
+            end
+          rescue StandardError
+            statement = false if self[c].scan(match)
+          end
+          c += 1
+        end
+      else
+        statement = false
       end
     end
     statement
@@ -51,6 +66,7 @@ module Enumerable
 
   def my_none?(pattern = nil)
     c = 0
+    my_array = []
     statement = true
     if block_given?
       to_a.length.times do
@@ -58,8 +74,23 @@ module Enumerable
         c += 1
       end
     elsif !pattern.nil?
-      to_a.length.times do
-        statement = false if to_a[i].scan(pattern)
+      if respond_to?(:to_ary)
+        my_array = self
+        to_a.length.times do
+          begin
+            if !self[c].is_a?(pattern)
+              statement = true
+            else
+              statement = false
+              break
+            end
+          rescue StandardError
+            statement = false if self[c].scan(pattern)
+          end
+          c += 1
+        end
+      else
+        statement = false
       end
     end
     statement
@@ -74,8 +105,21 @@ module Enumerable
         c += 1
       end
     elsif !pattern.nil?
-      length.times do
-        statement = true if self[i].scan(pattern)
+      if respond_to?(:to_ary)
+        my_array = self
+        length.times do
+          begin
+            if self[c].is_a?(pattern)
+              statement = true
+              break
+            end
+          rescue StandardError
+            statement = true if self[i].scan(pattern)
+          end
+          c += 1
+        end
+      else
+        statement = false
       end
     end
     statement
@@ -130,6 +174,7 @@ def multiply_els(array)
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
+puts
 multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
 # rubocop:enable Metrics/PerceivedComplexity

@@ -20,6 +20,9 @@ here array can be any Array or range these method behave as original methods
   p array.my_map{|n| n*4} 
   print(array.my_inject(:*))
   p arr.my_inject(1) { |r, i| r * i }
+  p array.my_none?(Integer)
+  p array.my_all?(Integer)
+  p array.my_any?(String)
 
 multiply_els method can take input as array or range
   
