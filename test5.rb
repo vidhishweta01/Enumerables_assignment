@@ -1,7 +1,6 @@
 # rubocop:disable Metrics/ModuleLength
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/MethodLength
 
 module Enumerable
   def my_each
@@ -135,4 +134,3 @@ multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/CyclomaticComplexity
-# rubocop:enable Metrics/MethodLength
