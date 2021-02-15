@@ -125,10 +125,14 @@ module Enumerable
   def my_count(var = nil)
     c = 0
     if !var.nil?
-      to_a.length.times do |i|
-        c += 1 if to_a[i] == var
+      if to_a.include? var
+        to_a.length.times do |i|
+          c += 1 if to_a[i] == var
+        end
+        c
+      else
+        0
       end
-      c
     else
       to_a.length
     end
@@ -168,6 +172,7 @@ end
 
 def multiply_els(array)
   p array.my_inject(1) { |r, i| r * i }
+  p array.my_count{|n| n if n>3}
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
