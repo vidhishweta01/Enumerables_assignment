@@ -2,6 +2,7 @@
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/BlockNesting
+# rubocop:disable Metrics/MethodLength
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -176,3 +177,4 @@ multiply_els([23, 34, 56])
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/BlockNesting
+# rubocop:enable Metrics/MethodLength
