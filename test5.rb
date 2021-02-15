@@ -53,7 +53,7 @@ module Enumerable
               break
             end
           rescue StandardError
-            statement = false if self[c].scan(match)
+            statement = true if self[c].scan(pattern)
           end
           c += 1
         end
@@ -66,7 +66,7 @@ module Enumerable
 
   def my_none?(pattern = nil)
     c = 0
-    statement = true
+    statement = false
     if block_given?
       to_a.length.times do
         statement = false if yield(to_a[c])
@@ -111,7 +111,7 @@ module Enumerable
               break
             end
           rescue StandardError
-            statement = true if self[i].scan(pattern)
+            statement = true if self[c].scan(pattern)
           end
           c += 1
         end

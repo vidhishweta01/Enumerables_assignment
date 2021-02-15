@@ -23,6 +23,13 @@ here array can be any Array or range these method behave as original methods
   p array.my_none?(Integer)
   p array.my_all?(Integer)
   p array.my_any?(String)
+   arr =["ruby"]
+  p arr.all?(/r/)
+  p arr.my_all?(/r/)
+  p arr.none?(/r/)
+  p arr.my_none?(/r/)
+  p arr.my_any?(/r/)
+  p arr.any?(/r/)
 
 multiply_els method can take input as array or range
   
