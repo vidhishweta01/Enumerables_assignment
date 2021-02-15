@@ -36,29 +36,40 @@ module Enumerable
 
   def my_all?(pattern = nil)
     c = 0
-    statement = true
+    my_arr = []
+    statement = false
     if block_given?
       to_a.length.times do
-        statement = false unless yield(to_a[c])
+        statement = true unless yield(to_a[c])
         c += 1
       end
     elsif !pattern.nil?
-      if respond_to?(:to_ary)
-        to_a.length.times do
-          begin
-            if self[c].is_a?(pattern)
-              statement = true
-            else
-              statement = false
-              break
-            end
-          rescue StandardError
-            statement = true if self[c].scan(pattern)
+      my_arr = if respond_to?(:to_ary)
+                 self
+               else
+                 to_a
+               end
+      if pattern.is_a?(Numeric)
+        statement = true if my_arr.my_count(pattern) == size
+      elsif pattern.is_a?(Regexp)
+        length.times do
+          statement = true if my_arr[c].match(pattern)
+          c += 1
+        end
+      elsif pattern.is_a?(String)
+        if respond_to?(:to_s)
+          statement = true if my_arr.eql?(pattern)
+        end
+      else
+        my_arr.length.times do
+          if my_arr[c].is_a?(pattern)
+            statement = true
+          else
+            statement = false
+            break
           end
           c += 1
         end
-      else
-        statement = false
       end
     end
     statement
@@ -66,29 +77,40 @@ module Enumerable
 
   def my_none?(pattern = nil)
     c = 0
-    statement = false
+    my_arr = []
+    statement = true
     if block_given?
       to_a.length.times do
         statement = false if yield(to_a[c])
         c += 1
       end
     elsif !pattern.nil?
-      if respond_to?(:to_ary)
-        length.times do
-          begin
-            if !self[c].is_a?(pattern)
-              statement = true
-            else
-              statement = false
-              break
-            end
-          rescue StandardError
-            statement = false if self[c].scan(pattern)
+      my_arr = if respond_to?(:to_ary)
+                 self
+               else
+                 to_a
+               end
+      if pattern.is_a?(Numeric)
+        statement = false if include? pattern
+      elsif pattern.is_a?(Regexp)
+        my_arr.length.times do
+          statement = false if my_arr[c].match(pattern)
+          c += 1
+        end
+      elsif pattern.is_a?(String)
+        if my_arr.respond_to?(:to_s)
+          statement = false if my_arr.eql?(pattern) || my_arr.include?(pattern)
+        end
+      else
+        my_arr.length.times do
+          if !my_arr[c].is_a?(pattern)
+            statement = true
+          else
+            statement = false
+            break
           end
           c += 1
         end
-      else
-        statement = false
       end
     end
     statement
@@ -96,6 +118,7 @@ module Enumerable
 
   def my_any?(pattern = nil)
     c = 0
+    my_arr = []
     statement = false
     if block_given?
       length.times do
@@ -103,20 +126,32 @@ module Enumerable
         c += 1
       end
     elsif !pattern.nil?
-      if respond_to?(:to_ary)
-        length.times do
-          begin
-            if self[c].is_a?(pattern)
-              statement = true
-              break
-            end
-          rescue StandardError
-            statement = true if self[c].scan(pattern)
+      my_arr = if respond_to?(:to_ary)
+                 self
+               else
+                 to_a
+               end
+      if pattern.is_a?(Numeric)
+        statement = true if my_arr.include? pattern
+      elsif pattern.is_a?(Regexp)
+        my_arr.length.times do
+          statement = true if my_arr[c].match(pattern)
+          c += 1
+        end
+      elsif pattern.is_a?(String)
+        if respond_to?(:to_s)
+          statement = true if my_arr.include? pattern
+        end
+      else
+        my_arr.length.times do
+          if !my_arr[c].is_a?(pattern)
+            statement = false
+          else
+            statement = true
+            break
           end
           c += 1
         end
-      else
-        statement = false
       end
     end
     statement
@@ -124,18 +159,19 @@ module Enumerable
 
   def my_count(var = nil)
     c = 0
-    if !var.nil?
+    if block_given?
+      my_each { |i| c += 1 if yield(i) }
+    elsif !var.nil?
       if to_a.include? var
         to_a.length.times do |i|
           c += 1 if to_a[i] == var
         end
-        c
-      else
-        0
       end
+      c
     else
-      to_a.length
+      c = size
     end
+    c
   end
 
   def my_map(proc = nil)
