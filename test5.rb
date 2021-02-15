@@ -172,7 +172,6 @@ end
 
 def multiply_els(array)
   p array.my_inject(1) { |r, i| r * i }
-  p array.my_count{|n| n if n>3}
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
