@@ -1,22 +1,19 @@
 # rubocop:disable Metrics/ModuleLength
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
 
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
 
     c = 0
-    statement = true
-    if block_given?
-      length.times do
-        statement = false unless yield(self[c])
-        c += 1
-      end
-    else
-      while c < to_a.length
-        yield (self[c])
-        c += 1
-      end
+    while c < to_a.length
+      yield(to_a[c])
+      c += 1
     end
+    self
   end
 
   def my_each_with_index
@@ -33,27 +30,22 @@ module Enumerable
   def my_select
     return to_enum(:my_select) unless block_given?
 
-    c = 0
-    if block_given?
-      length.times do
-        yield(self[c])
-        c += 1
-      end
-    end
-    self
+    result = []
+    my_each { |item| result << item if yield(item) }
+    result
   end
 
   def my_all?(pattern = nil)
     c = 0
     statement = true
     if block_given?
-      length.times do
-        statement = false unless yield(self[c])
+      to_a.length.times do
+        statement = false unless yield(to_a[c])
         c += 1
       end
     elsif !pattern.nil?
-      length.times do
-        statement = false if self[i].scan(pattern)
+      to_a.length.times do
+        statement = false if to_a[i].scan(pattern)
       end
     end
     statement
@@ -61,15 +53,15 @@ module Enumerable
 
   def my_none?(pattern = nil)
     c = 0
-    statement = false
+    statement = true
     if block_given?
-      length.times do
-        statement = true unless yield(self[c])
+      to_a.length.times do
+        statement = false if yield(to_a[c])
         c += 1
       end
     elsif !pattern.nil?
-      length.times do
-        statement = true if self[i].scan(pattern)
+      to_a.length.times do
+        statement = false if to_a[i].scan(pattern)
       end
     end
     statement
@@ -94,12 +86,12 @@ module Enumerable
   def my_count(var = nil)
     c = 0
     if !var.nil?
-      length.times do |i|
-        c += 1 if self[i] == var
+      to_a.length.times do |i|
+        c += 1 if to_a[i] == var
       end
       c
     else
-      length
+      to_a.length
     end
   end
 
@@ -115,22 +107,34 @@ module Enumerable
     result
   end
 
-  def my_inject(block = nil)
-    my_array = self
-    if !block.nil?
-      my_array.my_inject { |sum, x| sum + x }
-    elsif block_given?
-      accumulator = my_array[0]
-      my_array.my_each_with_index do |n, i|
-        accumulator = yield(accumulator, n) if i != 0
-      end
-      accumulator
+  def my_inject(*arg)
+    arr = is_a?(Array) ? self : to_a
+    result = arg[0] if arg[0].is_a? Integer
+
+    if arg[0].is_a?(Symbol) || arg[0].is_a?(String)
+      sym = arg[0]
+    elsif arg[0].is_a?(Integer)
+      sym = arg[1] if arg[1].is_a?(Symbol) || arg[1].is_a?(String)
     end
+
+    if sym
+      arr.my_each { |item| result = result ? result.send(sym, item) : item }
+    else
+      arr.my_each { |item| result = result ? yield(result, item) : item }
+    end
+
+    result
   end
 end
 
 def multiply_els(array)
-  print(array.my_inject { |sum| sum * 2 })
+  p array.my_inject(1) { |r, i| r * i }
 end
-multiply_els([2, 3, 5])
+rang = Range.new(5, 10)
+multiply_els(rang)
+multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/MethodLength
