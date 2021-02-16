@@ -221,19 +221,16 @@ module Enumerable
   def my_inject(*arg)
     arr = is_a?(Array) ? self : to_a
     result = arg[0] if arg[0].is_a? Integer
-
     if arg[0].is_a?(Symbol) || arg[0].is_a?(String)
       sym = arg[0]
     elsif arg[0].is_a?(Integer)
       sym = arg[1] if arg[1].is_a?(Symbol) || arg[1].is_a?(String)
     end
-
     if sym
       arr.my_each { |item| result = result ? result.send(sym, item) : item }
     else
       arr.my_each { |item| result = result ? yield(result, item) : item }
     end
-
     result
   end
 end
@@ -241,7 +238,5 @@ end
 def multiply_els(array)
   p array.my_inject(1) { |r, i| r * i }
 end
-
 rang = Range.new(5, 10)
 multiply_els(rang)
-multiply_els([23, 34, 56])
