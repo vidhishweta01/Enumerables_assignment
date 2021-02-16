@@ -127,8 +127,16 @@ module Enumerable
           c += 1
         end
       end
-    elsif to_a.include? false
-      statement = false
+    else
+      to_a.length.times do
+        if !to_a[c]
+          statement = true
+        else
+          statement = false
+          break
+        end
+        c += 1
+      end
     end
     statement
   end
