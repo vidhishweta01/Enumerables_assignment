@@ -68,6 +68,20 @@ true_block = proc { |num| num <= 9 }
   puts
   p array.my_count
   p array.count
+  arr =["ruby"]
+  true_any_array = [nil, false, true, []]
+  false_any_array = [nil, false, nil, false]
+  true_array = [1, true, 'hi', []]
+  false_array = [1, false, 'hi', []]
+  puts
+  p false_array.all?(false)
+  p false_array.my_all?(false)
+  puts
+  p true_any_array.none?(true)
+  p true_any_array.my_none?(true)
+  puts
+  p true_any_array.all?([])
+  p true_any_array.my_all?([])
   puts
 
 multiply_els method can take input as array or range

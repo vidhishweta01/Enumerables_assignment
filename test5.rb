@@ -60,6 +60,12 @@ module Enumerable
         if respond_to?(:to_s)
           statement = true if my_arr.eql?(pattern)
         end
+      elsif pattern.is_a?(Array)
+        statement = true if my_arr.my_count(pattern) == size
+      elsif pattern.is_a?(TrueClass)
+        statement = true if my_arr.my_count(pattern) == size
+      elsif pattern.is_a?(FalseClass)
+        statement = true if my_arr.my_count(pattern) == size
       else
         my_arr.length.times do
           if my_arr[c].is_a?(pattern)
@@ -101,6 +107,12 @@ module Enumerable
         if my_arr.respond_to?(:to_s)
           statement = false if my_arr.eql?(pattern) || my_arr.include?(pattern)
         end
+      elsif pattern.is_a?(Array)
+        statement = false if my_arr.include? pattern
+      elsif pattern.is_a?(TrueClass)
+        statement = false if my_arr.include? pattern
+      elsif pattern.is_a?(FalseClass)
+        statement = false if my_arr.include? pattern
       else
         my_arr.length.times do
           if !my_arr[c].is_a?(pattern)
@@ -119,7 +131,7 @@ module Enumerable
   def my_any?(pattern = nil)
     c = 0
     my_arr = []
-    statement = false
+    statement = true
     if block_given?
       length.times do
         statement = true if yield(self[c])
@@ -132,16 +144,22 @@ module Enumerable
                  to_a
                end
       if pattern.is_a?(Numeric)
-        statement = true if my_arr.include? pattern
+        statement = false unless my_arr.include? pattern
       elsif pattern.is_a?(Regexp)
         my_arr.length.times do
-          statement = true if my_arr[c].match(pattern)
+          statement = false unless my_arr[c].match(pattern)
           c += 1
         end
       elsif pattern.is_a?(String)
         if respond_to?(:to_s)
-          statement = true if my_arr.include? pattern
+          statement = false unless my_arr.include? pattern
         end
+      elsif pattern.is_a?(Array)
+        statement = false unless my_arr.include? pattern
+      elsif pattern.is_a?(TrueClass)
+        statement = false unless my_arr.include? pattern
+      elsif pattern.is_a?(FalseClass)
+        statement = false unless my_arr.include? pattern
       else
         my_arr.length.times do
           if !my_arr[c].is_a?(pattern)
