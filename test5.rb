@@ -1,8 +1,6 @@
 # rubocop:disable Metrics/ModuleLength
-# rubocop:disable Metrics/PerceivedComplexity
-# rubocop:disable Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/BlockNesting
 # rubocop:disable Metrics/MethodLength
+
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -77,8 +75,8 @@ module Enumerable
           c += 1
         end
       end
-    else
-      statement = false if to_a.include? false
+    elsif to_a.include? false
+      statement = false
     end
     statement
   end
@@ -126,8 +124,8 @@ module Enumerable
           c += 1
         end
       end
-    else
-      statement = true if to_a.include? false
+    elsif to_a.include? false
+      statement = true
     end
     statement
   end
@@ -236,7 +234,4 @@ multiply_els(rang)
 puts
 # multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
-# rubocop:enable Metrics/PerceivedComplexity
-# rubocop:enable Metrics/CyclomaticComplexity
-# rubocop:enable Metrics/BlockNesting
 # rubocop:enable Metrics/MethodLength
