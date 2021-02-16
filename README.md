@@ -87,7 +87,14 @@ true_block = proc { |num| num <= 9 }
   p [false, 0].any? == [false, 0].my_any?
   p (1..3).none?(&proc{|num| num%2==0})==(1..3).my_none?(&proc{|num| num%2==0})
   p [false, nil,false].none? ==  [false, nil,false].my_none?
-  puts
+  false_block = proc { |num| num > 9 }
+  rang = Range.new(5, 10)
+  p rang.my_any?(&false_block) == rang.any?(&false_block)
+  p (1..3).any?(&proc{|x| x==0}) == (1..3).my_any?(&proc{|x| x==0})
+  false_array = [1, false, 'hi', []]
+  p false_array.my_any? == false_array.any?
+  true_array = [1, true, 'hi', []]
+  p true_array.my_none? == true_array.none?
 
 multiply_els method can take input as array or range
   

@@ -139,7 +139,12 @@ module Enumerable
     statement = true
     if block_given?
       to_a.length.times do
-        statement = false unless yield(to_a[c])
+        if !yield(to_a[c])
+          statement = false
+        else
+          statement = true
+          break
+        end
         c += 1
       end
     elsif !pattern.nil?
@@ -234,8 +239,7 @@ def multiply_els(array)
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
-puts
-# multiply_els([23, 34, 56])
+multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/PerceivedComplexity
