@@ -2,7 +2,8 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/BlockNesting
+# rubocop:disable Metrics/BlockNesting Metrics/AbcSize
+# rubocop:disable Metrics/AbcSize
 
 module Enumerable
   def my_each
@@ -239,9 +240,10 @@ def multiply_els(array)
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
-#multiply_els([23, 34, 56])
+# multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/BlockNesting
+# rubocop:enable Metrics/AbcSize
