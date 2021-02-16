@@ -35,7 +35,7 @@ module Enumerable
     result
   end
 
-  def my_all?(pattern = nil)
+  def my_all?(pat = nil)
     c = 0
     my_arr = []
     statement = true
@@ -44,32 +44,32 @@ module Enumerable
         statement = false unless yield(to_a[c])
         c += 1
       end
-    elsif !pattern.nil?
+    elsif !pat.nil?
       my_arr = if respond_to?(:to_ary)
                  self
                else
                  to_a
                end
-      if pattern.is_a?(Numeric)
-        statement = false unless my_arr.my_count(pattern) == size
-      elsif pattern.is_a?(Regexp)
+      if pat.is_a?(Numeric)
+        statement = false unless my_arr.my_count(pat) == size
+      elsif pat.is_a?(Regexp)
         length.times do
-          statement = false unless my_arr[c].match(pattern)
+          statement = false unless my_arr[c].match(pat)
           c += 1
         end
-      elsif pattern.is_a?(String)
+      elsif pat.is_a?(String)
         if respond_to?(:to_s)
-          statement = false unless my_arr.eql?(pattern)
+          statement = false unless my_arr.eql?(pat)
         end
-      elsif pattern.is_a?(Array)
-        statement = false unless my_arr.my_count(pattern) == size
-      elsif pattern.is_a?(TrueClass)
-        statement = false unless my_arr.my_count(pattern) == size
-      elsif pattern.is_a?(FalseClass)
-        statement = false unless my_arr.my_count(pattern) == size
+      elsif pat.is_a?(Array)
+        statement = false unless my_arr.my_count(pat) == size
+      elsif pat.is_a?(TrueClass)
+        statement = false unless my_arr.my_count(pat) == size
+      elsif pat.is_a?(FalseClass)
+        statement = false unless my_arr.my_count(pat) == size
       else
         my_arr.length.times do
-          if my_arr[c].is_a?(pattern)
+          if my_arr[c].is_a?(pat)
             statement = true
           else
             statement = false
@@ -84,7 +84,7 @@ module Enumerable
     statement
   end
 
-  def my_none?(pattern = nil)
+  def my_none?(pat = nil)
     c = 0
     my_arr = []
     statement = false
@@ -93,32 +93,32 @@ module Enumerable
         statement = false if yield(to_a[c])
         c += 1
       end
-    elsif !pattern.nil?
+    elsif !pat.nil?
       my_arr = if respond_to?(:to_ary)
                  self
                else
                  to_a
                end
-      if pattern.is_a?(Numeric)
-        statement = true unless include? pattern
-      elsif pattern.is_a?(Regexp)
+      if pat.is_a?(Numeric)
+        statement = true unless include? pat
+      elsif pat.is_a?(Regexp)
         my_arr.length.times do
-          statement = true unless my_arr[c].match(pattern)
+          statement = true unless my_arr[c].match(pat)
           c += 1
         end
-      elsif pattern.is_a?(String)
+      elsif pat.is_a?(String)
         if my_arr.respond_to?(:to_s)
-          statement = true unless my_arr.eql?(pattern) || my_arr.include?(pattern)
+          statement = true unless my_arr.eql?(pat) || my_arr.include?(pat)
         end
-      elsif pattern.is_a?(Array)
-        statement = true unless my_arr.include? pattern
-      elsif pattern.is_a?(TrueClass)
-        statement = true unless my_arr.include? pattern
-      elsif pattern.is_a?(FalseClass)
-        statement = true unless my_arr.include? pattern
+      elsif pat.is_a?(Array)
+        statement = true unless my_arr.include? pat
+      elsif pat.is_a?(TrueClass)
+        statement = true unless my_arr.include? pat
+      elsif pat.is_a?(FalseClass)
+        statement = true unless my_arr.include? pat
       else
         my_arr.length.times do
-          if !my_arr[c].is_a?(pattern)
+          if !my_arr[c].is_a?(pat)
             statement = true
           else
             statement = false
@@ -141,7 +141,7 @@ module Enumerable
     statement
   end
 
-  def my_any?(pattern = nil)
+  def my_any?(pat = nil)
     c = 0
     my_arr = []
     statement = true
@@ -155,32 +155,32 @@ module Enumerable
         end
         c += 1
       end
-    elsif !pattern.nil?
+    elsif !pat.nil?
       my_arr = if respond_to?(:to_ary)
                  self
                else
                  to_a
                end
-      if pattern.is_a?(Numeric)
-        statement = false unless my_arr.include? pattern
-      elsif pattern.is_a?(Regexp)
+      if pat.is_a?(Numeric)
+        statement = false unless my_arr.include? pat
+      elsif pat.is_a?(Regexp)
         my_arr.length.times do
-          statement = false unless my_arr[c].match(pattern)
+          statement = false unless my_arr[c].match(pat)
           c += 1
         end
-      elsif pattern.is_a?(String)
+      elsif pat.is_a?(String)
         if respond_to?(:to_s)
-          statement = false unless my_arr.include? pattern
+          statement = false unless my_arr.include? pat
         end
-      elsif pattern.is_a?(Array)
-        statement = false unless my_arr.include? pattern
-      elsif pattern.is_a?(TrueClass)
-        statement = false unless my_arr.include? pattern
-      elsif pattern.is_a?(FalseClass)
-        statement = false unless my_arr.include? pattern
+      elsif pat.is_a?(Array)
+        statement = false unless my_arr.include? pat
+      elsif pat.is_a?(TrueClass)
+        statement = false unless my_arr.include? pat
+      elsif pat.is_a?(FalseClass)
+        statement = false unless my_arr.include? pat
       else
         my_arr.length.times do
-          if !my_arr[c].is_a?(pattern)
+          if !my_arr[c].is_a?(pat)
             statement = false
           else
             statement = true
