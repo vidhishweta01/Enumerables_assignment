@@ -123,7 +123,7 @@ module Enumerable
           end
           c += 1
         end
-      end 
+      end
     end
     statement
   end
