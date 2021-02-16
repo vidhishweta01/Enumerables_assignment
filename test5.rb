@@ -1,8 +1,3 @@
-# rubocop:disable Metrics/ModuleLength
-# rubocop:disable Metrics/MethodLength
-# rubocop:disable Metrics/PerceivedComplexity
-# rubocop:disable Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/BlockNesting
 
 module Enumerable
   def my_each
@@ -108,7 +103,8 @@ module Enumerable
         end
       elsif pat.is_a?(String)
         if my_arr.respond_to?(:to_s)
-          statement = true unless my_arr.eql?(pat) || my_arr.include?(pat)
+          unless my_arr.eql?(pat) || my_arr.include?(pat)
+            statement = true
         end
       elsif pat.is_a?(Array)
         statement = true unless my_arr.include? pat
@@ -245,11 +241,7 @@ end
 def multiply_els(array)
   p array.my_inject(1) { |r, i| r * i }
 end
+
 rang = Range.new(5, 10)
 multiply_els(rang)
-# multiply_els([23, 34, 56])
-# rubocop:enable Metrics/ModuleLength
-# rubocop:enable Metrics/MethodLength
-# rubocop:enable Metrics/PerceivedComplexity
-# rubocop:enable Metrics/CyclomaticComplexity
-# rubocop:enable Metrics/BlockNesting
+multiply_els([23, 34, 56])
