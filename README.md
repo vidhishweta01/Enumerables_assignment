@@ -4,7 +4,11 @@
 
 
 Enumerable_assignment contains the customised method which behave as original methods
-can be used as example below:
+which are my_each, my_each_with_index, my_all, my_none, my_count and so on all of these behave same as original method
+
+
+following are the tests which have been checked on the enumerables
+
 here array can be any Array or range these method behave as original methods
   array.my_each do |i|
     r = r+i
@@ -94,6 +98,12 @@ true_block = proc { |num| num <= 9 }
   false_array = [1, false, 'hi', []]
   p false_array.my_any? == false_array.any?
   true_array = [1, true, 'hi', []]
+  p true_array.my_none? == true_array.none?
+  false_array = [1, false, 'hi', []]
+  true_array = [1, true, 'hi', []]
+  p false_array.my_any? == false_array.any?
+  p true_array.my_any? == true_array.any?
+  p false_array.my_none? == false_array.none?
   p true_array.my_none? == true_array.none?
 
 multiply_els method can take input as array or range

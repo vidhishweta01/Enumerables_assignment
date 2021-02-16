@@ -128,7 +128,7 @@ module Enumerable
         end
       end
     elsif to_a.include? false
-      statement = true
+      statement = false
     end
     statement
   end
@@ -239,7 +239,7 @@ def multiply_els(array)
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
-multiply_els([23, 34, 56])
+#multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/PerceivedComplexity
