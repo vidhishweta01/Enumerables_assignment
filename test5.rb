@@ -77,6 +77,8 @@ module Enumerable
           c += 1
         end
       end
+    else
+     statement = false if to_a.include? false 
     end
     statement
   end
@@ -87,7 +89,7 @@ module Enumerable
     statement = false
     if block_given?
       to_a.length.times do
-        statement = true unless yield(to_a[c])
+        statement = false if yield(to_a[c])
         c += 1
       end
     elsif !pattern.nil?
@@ -124,6 +126,8 @@ module Enumerable
           c += 1
         end
       end
+    else
+      statement = true if to_a.include? false
     end
     statement
   end
@@ -226,11 +230,17 @@ end
 
 def multiply_els(array)
   p array.my_inject(1) { |r, i| r * i }
+  
+  p [true,[true],false].all? == [true,[true],false].my_all?
+  p (1..3).any?(&proc{|x| x==0})==(1..3).my_any?(&proc{|x| x==0})
+  p [false, 0].any? == [false, 0].my_any?
+  p (1..3).none?(&proc{|num| num%2==0})==(1..3).my_none?(&proc{|num| num%2==0})
+  p [false, nil,false].none? ==  [false, nil,false].my_none?
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
 puts
-multiply_els([23, 34, 56])
+#multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/CyclomaticComplexity
