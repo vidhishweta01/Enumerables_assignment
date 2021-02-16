@@ -230,12 +230,6 @@ end
 
 def multiply_els(array)
   p array.my_inject(1) { |r, i| r * i }
-  
-  p [true,[true],false].all? == [true,[true],false].my_all?
-  p (1..3).any?(&proc{|x| x==0})==(1..3).my_any?(&proc{|x| x==0})
-  p [false, 0].any? == [false, 0].my_any?
-  p (1..3).none?(&proc{|num| num%2==0})==(1..3).my_none?(&proc{|num| num%2==0})
-  p [false, nil,false].none? ==  [false, nil,false].my_none?
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
