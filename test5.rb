@@ -2,8 +2,7 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/BlockNesting Metrics/AbcSize
-# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/BlockNesting
 
 module Enumerable
   def my_each
@@ -246,4 +245,3 @@ multiply_els(rang)
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/BlockNesting
-# rubocop:enable Metrics/AbcSize
