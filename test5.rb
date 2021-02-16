@@ -123,7 +123,7 @@ module Enumerable
           end
           c += 1
         end
-      end
+      end 
     end
     statement
   end
@@ -230,7 +230,7 @@ end
 rang = Range.new(5, 10)
 multiply_els(rang)
 puts
-# multiply_els([23, 34, 56])
+multiply_els([23, 34, 56])
 # rubocop:enable Metrics/ModuleLength
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/CyclomaticComplexity
