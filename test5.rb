@@ -1,4 +1,9 @@
+# frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/CyclomaticComplexity
 module Enumerable
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -45,22 +50,21 @@ module Enumerable
                else
                  to_a
                end
-      if pat.is_a?(Numeric)
+      case pat
+      when Numeric
         statement = false unless my_arr.my_count(pat) == size
-      elsif pat.is_a?(Regexp)
+      when Regexp
         length.times do
           statement = false unless my_arr[c].match(pat)
           c += 1
         end
-      elsif pat.is_a?(String)
-        if respond_to?(:to_s)
-          statement = false unless my_arr.eql?(pat)
-        end
-      elsif pat.is_a?(Array)
+      when String
+        statement = false if respond_to?(:to_s) && !my_arr.eql?(pat)
+      when Array
         statement = false unless my_arr.my_count(pat) == size
-      elsif pat.is_a?(TrueClass)
+      when TrueClass
         statement = false unless my_arr.my_count(pat) == size
-      elsif pat.is_a?(FalseClass)
+      when FalseClass
         statement = false unless my_arr.my_count(pat) == size
       else
         my_arr.length.times do
@@ -79,59 +83,29 @@ module Enumerable
     statement
   end
 
-  def my_none?(pat = nil)
-    c = 0
-    my_arr = []
+  def my_none?(match = nil)
+    i = 0
     statement = false
+    statement = true if length.zero?
     if block_given?
-      to_a.length.times do
-        statement = false if yield(to_a[c])
-        c += 1
+      length.times do
+        statement = true unless yield(self[i])
+        i += 1
       end
-    elsif !pat.nil?
-      my_arr = if respond_to?(:to_ary)
-                 self
-               else
-                 to_a
-               end
-      if pat.is_a?(Numeric)
-        statement = true unless include? pat
-      elsif pat.is_a?(Regexp)
-        my_arr.length.times do
-          statement = true unless my_arr[c].match(pat)
-          c += 1
+    elsif !match.nil?
+      length.times do
+        begin
+          statement = true if self[i].is_a?(match)
+        rescue StandardError
+          statement = true if self[i].scan(match)
         end
-      elsif pat.is_a?(String)
-        if my_arr.respond_to?(:to_s)
-          unless my_arr.eql?(pat) || my_arr.include?(pat)
-            statement = true
-        end
-      elsif pat.is_a?(Array)
-        statement = true unless my_arr.include? pat
-      elsif pat.is_a?(TrueClass)
-        statement = true unless my_arr.include? pat
-      elsif pat.is_a?(FalseClass)
-        statement = true unless my_arr.include? pat
-      else
-        my_arr.length.times do
-          if !my_arr[c].is_a?(pat)
-            statement = true
-          else
-            statement = false
-            break
-          end
-          c += 1
-        end
+        i += 1
       end
     else
-      to_a.length.times do
-        if !to_a[c]
-          statement = true
-        else
-          statement = false
-          break
-        end
-        c += 1
+      length.times do
+        return true if (self[i] == true) || self[i].nil?
+
+        i += 1
       end
     end
     statement
@@ -157,22 +131,21 @@ module Enumerable
                else
                  to_a
                end
-      if pat.is_a?(Numeric)
+      case pat
+      when Numeric
         statement = false unless my_arr.include? pat
-      elsif pat.is_a?(Regexp)
+      when Regexp
         my_arr.length.times do
           statement = false unless my_arr[c].match(pat)
           c += 1
         end
-      elsif pat.is_a?(String)
-        if respond_to?(:to_s)
-          statement = false unless my_arr.include? pat
-        end
-      elsif pat.is_a?(Array)
+      when String
+        statement = false if respond_to?(:to_s) && !(my_arr.include? pat)
+      when Array
         statement = false unless my_arr.include? pat
-      elsif pat.is_a?(TrueClass)
+      when TrueClass
         statement = false unless my_arr.include? pat
-      elsif pat.is_a?(FalseClass)
+      when FalseClass
         statement = false unless my_arr.include? pat
       else
         my_arr.length.times do
@@ -221,9 +194,10 @@ module Enumerable
   def my_inject(*arg)
     arr = is_a?(Array) ? self : to_a
     result = arg[0] if arg[0].is_a? Integer
-    if arg[0].is_a?(Symbol) || arg[0].is_a?(String)
+    case arg[0]
+    when Symbol, String
       sym = arg[0]
-    elsif arg[0].is_a?(Integer)
+    when Integer
       sym = arg[1] if arg[1].is_a?(Symbol) || arg[1].is_a?(String)
     end
     if sym
@@ -240,3 +214,8 @@ def multiply_els(array)
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
+
+# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/CyclomaticComplexity
