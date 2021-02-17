@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rubocop:disable Metrics/ModuleLength
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/PerceivedComplexity
@@ -81,29 +83,63 @@ module Enumerable
     statement
   end
 
-  def my_none?(match = nil)
-    i = 0
-    statement = false
-    statement = true if length.zero?
+  def my_none?(pat = nil)
+    c = 0
+    my_arr = []
+    statement = true
     if block_given?
-      length.times do
-        statement = true unless yield(self[i])
-        i += 1
-      end
-    elsif !match.nil?
-      length.times do
-        begin
-          statement = true if self[i].is_a?(match)
-        rescue StandardError
-          statement = true if self[i].scan(match)
+      to_a.length.times do
+        if yield(to_a[c])
+          statement = false
+          break
+        else
+          statement = true
         end
-        i += 1
+        c += 1
+      end
+    elsif !pat.nil?
+      my_arr = if respond_to?(:to_ary)
+                 self
+               else
+                 to_a
+               end
+      case pat
+      when Numeric
+        statement = false if my_arr.my_count(pat) == size
+      when Regexp
+        length.times do
+          statement = false if my_arr[c].match(pat)
+          c += 1
+        end
+      when String
+        statement = false if respond_to?(:to_s) && my_arr.include?(pat)
+      when Array
+        statement = false unless my_arr.my_count(pat) == size
+      when TrueClass
+        statement = false unless my_arr.my_count(pat) == size
+      when FalseClass
+        statement = false unless my_arr.my_count(pat) == size
+      else
+        my_arr.length.times do
+          if my_arr[c].is_a?(pat)
+            statement = false
+          else
+            statement = true
+            break
+          end
+          c += 1
+        end
       end
     else
-      length.times do
-        return true if (self[i] == true) || self[i].nil?
-
-        i += 1
+      c = 0
+      while c < to_a.length
+        if to_a[c]
+          statement = false
+          break
+        else
+          statement = true
+        end
+        c += 1
       end
     end
     statement
@@ -198,17 +234,26 @@ module Enumerable
     when Integer
       sym = arg[1] if arg[1].is_a?(Symbol) || arg[1].is_a?(String)
     end
+
     if sym
       arr.my_each { |item| result = result ? result.send(sym, item) : item }
     else
       arr.my_each { |item| result = result ? yield(result, item) : item }
     end
+
     result
   end
 end
 
 def multiply_els(array)
   p array.my_inject(1) { |r, i| r * i }
+  false_array = [1, false, 'hi', []]
+  true_array = [1, true, 'hi', []]
+  p false_array.my_none? == false_array.none?
+  p true_array.my_none? == true_array.none?
+  p (1..3).none?(&proc { |num| num.even? }) == (1..3).my_none?(&proc { |num| num.even? })
+  words = %w[programmer computer house car]
+  p words.none?('car') == words.my_none?('car')
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
