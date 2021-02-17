@@ -192,6 +192,8 @@ module Enumerable
           c += 1
         end
       end
+    elsif (to_a - [nil, false]) == []
+      return false
     end
     statement
   end
@@ -247,13 +249,6 @@ end
 
 def multiply_els(array)
   p array.my_inject(1) { |r, i| r * i }
-  false_array = [1, false, 'hi', []]
-  true_array = [1, true, 'hi', []]
-  p false_array.my_none? == false_array.none?
-  p true_array.my_none? == true_array.none?
-  p (1..3).none?(&proc { |num| num.even? }) == (1..3).my_none?(&proc { |num| num.even? })
-  words = %w[programmer computer house car]
-  p words.none?('car') == words.my_none?('car')
 end
 rang = Range.new(5, 10)
 multiply_els(rang)
