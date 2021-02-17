@@ -33,7 +33,7 @@ module Enumerable
     result
   end
 
-  def my_all?(pat = nil) # rubocop:disable Metrics/AbcSize
+  def my_all?(pat = nil)
     c = 0
     my_arr = []
     statement = true
@@ -143,7 +143,7 @@ module Enumerable
     statement
   end
 
-  def my_any?(pat = nil) # rubocop:disable Metrics/AbcSize
+  def my_any?(pat = nil)
     c = 0
     my_arr = []
     statement = true
@@ -225,7 +225,7 @@ module Enumerable
     result
   end
 
-  def my_inject(*arg) # rubocop:disable Metrics/AbcSize
+  def my_inject(*arg)
     arr = is_a?(Array) ? self : to_a
     result = arg[0] if arg[0].is_a? Integer
     case arg[0]
