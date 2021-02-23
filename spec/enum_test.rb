@@ -133,3 +133,9 @@ describe '#my_inject' do
     expect(array.my_inject(1) { |r, i| r * i }).to eql(0)
   end
 end
+
+describe '#multiply_els' do
+  it 'returns the result of my_inject after multiplying all the elemenets of array' do
+    expect(multiply_els(array)).to eql(0)
+  end
+end
