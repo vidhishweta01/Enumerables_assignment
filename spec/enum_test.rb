@@ -2,6 +2,7 @@ require_relative '../test5'
 include Enumerable # rubocop:disable Style/MixinUsage
 
 array = [6, 19, 19, 25, 7, 30, 20, 27, 22, 19, 18, 29, 12, 31, 2, 12, 0, 32, 1, 20]
+array1 = [6, 19, 19, 25, 7, 30, 20, 27, 22, 19, 18, 29, 12, 31, 2, 12, 32, 1, 20]
 words = %w[programmer computer house car]
 false_array = [1, false, 'hi', []]
 true_array = [1, true, 'hi', []]
@@ -137,5 +138,6 @@ end
 describe '#multiply_els' do
   it 'returns the result of my_inject after multiplying all the elemenets of array' do
     expect(multiply_els(array)).to eql(0)
+    expect(multiply_els(array1)).to eql(7655833078522675200000)
   end
 end
