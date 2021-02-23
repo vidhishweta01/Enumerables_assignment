@@ -132,7 +132,7 @@ describe '#my_inject' do
   it 'operates the operator over a collection and returns the result in single datatype' do
     expect(array.my_inject(:+)).to eql(351)
     expect(array.my_inject(1) { |r, i| r * i }).to eql(0)
-    expect(array1.my_inject).to eql(7_655_833_078_522_675_200_000)
+    expect(array1.my_inject(:*)).to eql(7_655_833_078_522_675_200_000)
   end
 end
 
