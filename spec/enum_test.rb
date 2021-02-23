@@ -138,6 +138,6 @@ end
 describe '#multiply_els' do
   it 'returns the result of my_inject after multiplying all the elemenets of array' do
     expect(multiply_els(array)).to eql(0)
-    expect(multiply_els(array1)).to eql(7655833078522675200000)
+    expect(multiply_els(array1)).to eql(7_655_833_078_522_675_200_000)
   end
 end
